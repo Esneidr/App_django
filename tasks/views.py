@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.contrib.auth import login
+from django.db import IntegrityError
 
 # Create your views here.
 def home(request):
@@ -16,12 +17,21 @@ def singup(request):
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
-                user = User.objects.create_user(username=request.POST['username'], 
-                password=request.POST['password1'])
+                user = User.objects.create_user(
+                    username=request.POST['username'], password=request.POST['password1'])
                 user.save()
-                return HttpResponse('User created successfully')
-            except:
-                return HttpResponse('Username already exists')
-        return HttpResponse('Password do not macth')
-
+                login(request, user)
+                return redirect ('tasks')
+            except IntegrityError:
+                return render(request, 'singup.html', {
+                    'form': UserCreationForm,
+                    "error": 'User already exists'
+                })    
+        return render(request, 'singup.html', {
+            'form': UserCreationForm,
+            "error": 'Password do not macth' 
+        })
+        
+def tasks(request):
+    return render(request, 'tasks.html')
 
