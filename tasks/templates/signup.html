@@ -1,4 +1,7 @@
-<h1>Singup</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Signup</h1>
 
 {{error}}
 
@@ -6,6 +9,12 @@
     {% csrf_token %}
     {{form.as_p}}
     <button>
-        Singup
+        Signup
     </button>
 </form>
+{% endblock %}
+
+
+
+
+
