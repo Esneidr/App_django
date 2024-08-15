@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Create Tasks</h1>
-
-    {{error}}
-
-    <form action="/tasks/create/" method="POST">
-        {% csrf_token %}
-
-        {{form.as_p}}
-
-        <button>
-            Save
-        </button>
-
-    </form>
-
+    <Main class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 mt-5">
+            
+                <form action="/tasks/create/" method="POST" class="card card-body">
+                    <h1>Create Tasks</h1>
+                    {{error}}
+                    {% csrf_token %}
+                    {{form.as_p}}
+            
+                    <button class="btn btn-dark">
+                        Save
+                    </button>
+                </form>         
+            </div>
+        </div>
+    </Main>
 {% endblock %}
